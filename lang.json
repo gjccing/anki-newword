@@ -1,0 +1,34 @@
+[
+  {"code":"en", "lang":"English"}
+  ,{"code":"zh-CN", "lang":"简体中文"}
+  ,{"code":"zh-TW", "lang":"繁體中文"}
+  ,{"code":"ja", "lang":"日本語"}
+  ,{"code":"ko", "lang":"한국어"}
+  ,{"code":"fr", "lang":"Français"}
+  ,{"code":"ru", "lang":"Русский"}
+  ,{"code":"de", "lang":"Deutsch"}
+  ,{"code":"es", "lang":"español"}
+  ,{"code":"pt", "lang":"português"}
+  ,{"code":"it", "lang":"Italiano"}
+  ,{"code":"el", "lang":"Έλληνας"}
+  ,{"code":"nl", "lang":"Hollands"}
+  ,{"code":"sv", "lang":"Svensk"}
+  ,{"code":"ar", "lang":"اللغة العربية"}
+  ,{"code":"lwa-CS", "lang":"České"}
+  ,{"code":"lwa-DA", "lang":"Dansk"}
+  ,{"code":"lwa-FI", "lang":"Suomi"}
+  ,{"code":"lwa-NO", "lang":"Norske"}
+  ,{"code":"lwa-BG", "lang":"България"}
+  ,{"code":"lwa-FA", "lang":"زبان فارسی"}
+  ,{"code":"lwa-HA", "lang":"Hausa"}
+  ,{"code":"lwa-HE", "lang":"עברית"}
+  ,{"code":"lwa-HI", "lang":"हिंदी भाषा"}
+  ,{"code":"lwa-HU", "lang":"A magyar"}
+  ,{"code":"lwa-PS", "lang":"pushtu"}
+  ,{"code":"lwa-PL", "lang":"Polski"}
+  ,{"code":"lwa-RO", "lang":"Romania"}
+  ,{"code":"lwa-SR", "lang":"Srbija"}
+  ,{"code":"lwa-TH", "lang":"ภาษาไทย"}
+  ,{"code":"lwa-TR", "lang":"Türk"}
+  ,{"code":"lwa-UR", "lang":"اردو"}
+]

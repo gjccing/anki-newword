@@ -1,0 +1,32 @@
+{
+  "name": "anki-newword",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gjccing/anki-newword.git"
+  },
+  "keywords": [
+    "anki",
+    "chrome",
+    "extension"
+  ],
+  "dependencies" : {
+    "bootstrap" : "^4.0.0",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3"
+  },
+  "author": "hgw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gjccing/anki-newword/issues"
+  },
+  "homepage": "https://github.com/gjccing/anki-newword#readme",
+  "babel": {
+    "plugins": ["transform-react-jsx"]
+  }
+}

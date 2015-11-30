@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2
+  ,"name": "anki-newword"
+  ,"version": "1.0.0"
+  ,"permissions": [
+    "storage"
+    , "contextMenus"
+    , "http://*/*"
+    , "https://*/*"
+  ]
+  ,"background": {
+    "scripts": ["background.js"]
+  }
+  ,"options_page": "options.html"
+  ,"content_security_policy": "script-src 'self' 'unsafe-eval' https://translate.googleapis.com; object-src 'self'"
+}
