@@ -16,7 +16,9 @@
     "extension"
   ],
   "dependencies" : {
-    "bootstrap" : "^4.0.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "bootstrap": "https://github.com/twbs/bootstrap.git#v4-dev",
     "react": "^0.14.3",
     "react-dom": "^0.14.3"
   },

@@ -9,7 +9,10 @@
     , "https://*/*"
   ]
   ,"background": {
-    "scripts": ["background.js"]
+    "scripts": [
+      "js/ajax.js",
+      "js/background.js"
+    ]
   }
   ,"options_page": "options.html"
   ,"content_security_policy": "script-src 'self' 'unsafe-eval' https://translate.googleapis.com; object-src 'self'"
