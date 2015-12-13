@@ -1,7 +1,8 @@
 {
   "manifest_version": 2
+  ,"description":"一個在瀏覽器上快速紀錄生字到anki的工具。"
   ,"name": "anki-newword"
-  ,"version": "1.0.0"
+  ,"version": "1.0.1"
   ,"permissions": [
     "storage"
     , "contextMenus"
@@ -16,4 +17,9 @@
   }
   ,"options_page": "options.html"
   ,"content_security_policy": "script-src 'self' 'unsafe-eval' https://translate.googleapis.com; object-src 'self'"
+  ,"icons" : {
+    "16" : "images/16.png",
+    "32" : "images/32.png",
+    "128" : "images/128.png"
+  }
 }
