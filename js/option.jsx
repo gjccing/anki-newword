@@ -73,33 +73,52 @@ var Password =  React.createClass({
 
 var AnkiAccountPanel =  React.createClass({
   getInitialState: function() {
-    return { decks: [] };
+    return {
+      error:false,
+      disabled:false,
+      decks: []
+    };
   },
   getDesks:function( accountInfo ) {
-    if ( this.props.username && this.props.password )
+    if ( this.props.username && this.props.password ) {
+      this.setState({
+        error:false,
+        disabled:true,
+        decks:[]
+      });
       ajax( 'https://ankiweb.net/account/logout', 'get' )
         .then( function () {
-          ajax( 'https://ankiweb.net/account/login','post', {'Content-Type':'application/x-www-form-urlencoded'}, this.props )
-            .then( function() {
-              ajax( 'https://ankiweb.net/decks/', 'get' )
-                .then( function( resp ) {
-                  this.setState( { decks:
-                    Array.prototype.slice.call(
-                      new DOMParser()
-                        .parseFromString(resp.response, "text/html")
-                        .getElementsByClassName('deck')
-                    ).map( ele => ele.innerText.trim() )
-                  } );
-                }.bind(this))
-                .catch( printErr );
-            }.bind(this))
-            .catch( printErr );
+          return ajax( 'https://ankiweb.net/account/login','post', {'Content-Type':'application/x-www-form-urlencoded'}, this.props )
         }.bind(this))
-        .catch( printErr );
-
-    function printErr( err ) {
-      console.log( err );
-    }
+        .then( function( resp ) {
+          var result = new DOMParser()
+            .parseFromString(resp.response, "text/html")
+            .getElementsByClassName('warning')[0];
+          if ( !result )
+            return ajax( 'https://ankiweb.net/decks/', 'get' )
+          else
+            throw resp.innerHtml;
+        }.bind(this))
+        .then( function( resp ) {
+          this.setState( {
+            error:false,
+            disabled:false,
+            decks:Array.prototype.slice.call(
+              new DOMParser()
+                .parseFromString(resp.response, "text/html")
+                .getElementsByClassName('deck')
+            ).map( ele => ele.innerText.trim() )
+          } );
+        }.bind(this))
+        .catch( function printErr( err ) {
+          this.setState({
+            error:true,
+            disabled:false,
+            decks:[]
+          });
+          console.log( err );
+        }.bind(this));
+      }
   },
   componentWillMount: function() {
       this.getDesks();
@@ -114,7 +133,7 @@ var AnkiAccountPanel =  React.createClass({
   },
   render: function() {
     return(
-      <fieldset>
+      <fieldset disabled={this.state.disabled}>
         <TextField name="username"
           label="Email"
           className="col-sm-4"
@@ -133,6 +152,7 @@ var AnkiAccountPanel =  React.createClass({
           value={this.props.deck}
           options={this.state.decks}
           onChange={this.handleOnChange} />
+        { this.state.error?<p>{this.state.error}</p>:'' }
       </fieldset>
     );
   }

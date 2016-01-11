@@ -1,12 +1,9 @@
-"use strict";
 
 var Select = React.createClass({
-  displayName: "Select",
-
-  handleOnChange: function handleOnChange(evt) {
+  handleOnChange: function (evt) {
     this.props.onChange(evt, this.refs.input.value);
   },
-  render: function render() {
+  render: function () {
     var fieldId = this.props.id || this.props.name;
     return React.createElement(
       "div",
@@ -25,7 +22,7 @@ var Select = React.createClass({
           ref: "input",
           onChange: this.handleOnChange },
         React.createElement("option", null),
-        this.props.options instanceof Array && this.props.options.map(function (option) {
+        this.props.options instanceof Array && this.props.options.map(option => {
           if (typeof option == 'string') return React.createElement(
             "option",
             { value: option },
@@ -42,12 +39,10 @@ var Select = React.createClass({
 });
 
 var TextField = React.createClass({
-  displayName: "TextField",
-
-  handleOnChange: function handleOnChange(evt) {
+  handleOnChange: function (evt) {
     this.props.onChange(evt, this.refs.input.value);
   },
-  render: function render() {
+  render: function () {
     var fieldId = this.props.id || this.props.name;
     return React.createElement(
       "div",
@@ -70,12 +65,10 @@ var TextField = React.createClass({
 });
 
 var Password = React.createClass({
-  displayName: "Password",
-
-  handleOnChange: function handleOnChange(evt) {
+  handleOnChange: function (evt) {
     this.props.onChange(evt, this.refs.input.value);
   },
-  render: function render() {
+  render: function () {
     var fieldId = this.props.id || this.props.name;
     return React.createElement(
       "div",
@@ -98,42 +91,56 @@ var Password = React.createClass({
 });
 
 var AnkiAccountPanel = React.createClass({
-  displayName: "AnkiAccountPanel",
-
-  getInitialState: function getInitialState() {
-    return { decks: [] };
+  getInitialState: function () {
+    return {
+      error: false,
+      disabled: false,
+      decks: []
+    };
   },
-  getDesks: function getDesks(accountInfo) {
-    if (this.props.username && this.props.password) ajax('https://ankiweb.net/account/logout', 'get').then((function () {
-      ajax('https://ankiweb.net/account/login', 'post', { 'Content-Type': 'application/x-www-form-urlencoded' }, this.props).then((function () {
-        ajax('https://ankiweb.net/decks/', 'get').then((function (resp) {
-          this.setState({ decks: Array.prototype.slice.call(new DOMParser().parseFromString(resp.response, "text/html").getElementsByClassName('deck')).map(function (ele) {
-              return ele.innerText.trim();
-            })
-          });
-        }).bind(this)).catch(printErr);
-      }).bind(this)).catch(printErr);
-    }).bind(this)).catch(printErr);
-
-    function printErr(err) {
-      console.log(err);
+  getDesks: function (accountInfo) {
+    if (this.props.username && this.props.password) {
+      this.setState({
+        error: false,
+        disabled: true,
+        decks: []
+      });
+      ajax('https://ankiweb.net/account/logout', 'get').then((function () {
+        return ajax('https://ankiweb.net/account/login', 'post', { 'Content-Type': 'application/x-www-form-urlencoded' }, this.props);
+      }).bind(this)).then((function (resp) {
+        var result = new DOMParser().parseFromString(resp.response, "text/html").getElementsByClassName('warning')[0];
+        if (!result) return ajax('https://ankiweb.net/decks/', 'get');else throw resp.innerHtml;
+      }).bind(this)).then((function (resp) {
+        this.setState({
+          error: false,
+          disabled: false,
+          decks: Array.prototype.slice.call(new DOMParser().parseFromString(resp.response, "text/html").getElementsByClassName('deck')).map(ele => ele.innerText.trim())
+        });
+      }).bind(this)).catch((function printErr(err) {
+        this.setState({
+          error: true,
+          disabled: false,
+          decks: []
+        });
+        console.log(err);
+      }).bind(this));
     }
   },
-  componentWillMount: function componentWillMount() {
+  componentWillMount: function () {
     this.getDesks();
   },
   refreshDesksTaskId: 0,
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps: function (nextProps) {
     clearTimeout(this.refreshDesksTaskId);
     this.refreshDesksTaskId = setTimeout(this.getDesks.bind(this), 1000);
   },
-  handleOnChange: function handleOnChange(evt, value) {
+  handleOnChange: function (evt, value) {
     this.props.onChange(evt, value);
   },
-  render: function render() {
+  render: function () {
     return React.createElement(
       "fieldset",
-      null,
+      { disabled: this.state.disabled },
       React.createElement(TextField, { name: "username",
         label: "Email",
         className: "col-sm-4",
@@ -151,15 +158,18 @@ var AnkiAccountPanel = React.createClass({
         className: "col-sm-4",
         value: this.props.deck,
         options: this.state.decks,
-        onChange: this.handleOnChange })
+        onChange: this.handleOnChange }),
+      this.state.error ? React.createElement(
+        "p",
+        null,
+        this.state.error
+      ) : ''
     );
   }
 });
 
 var ConfigForm = React.createClass({
-  displayName: "ConfigForm",
-
-  getInitialState: function getInitialState() {
+  getInitialState: function () {
     return {
       langMap: [],
       config: Object.assign({
@@ -170,19 +180,19 @@ var ConfigForm = React.createClass({
       }, this.props.config)
     };
   },
-  componentWillMount: function componentWillMount() {
+  componentWillMount: function () {
     ajax('./lang.json', 'get').then((function (data) {
       this.setState({ langMap: JSON.parse(data.response) });
     }).bind(this));
   },
-  handleChange: function handleChange(evt, value) {
+  handleChange: function (evt, value) {
     this.state.config[evt.target.id] = value;
     this.setState(this.state);
   },
-  handleSubmit: function handleSubmit(evt) {
+  handleSubmit: function (evt) {
     chrome.storage.sync.set({ config: this.state.config });
   },
-  render: function render() {
+  render: function () {
     return React.createElement(
       "form",
       { className: "container", onSubmit: this.handleSubmit },

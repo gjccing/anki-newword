@@ -42,7 +42,7 @@ chrome.contextMenus.create({
                     {'Content-Type':'application/x-www-form-urlencoded'},
                     {
                       data: JSON.stringify( [
-                        [`${word}(${dict.pos})`,dict.terms.join()],
+                        [`${dict.base_form}(${dict.pos})`,dict.terms.join()],
                         dict.pos+' '+url
                       ] ),
                       deck:items.config.deck,
