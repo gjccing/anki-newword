@@ -2,7 +2,7 @@
   "manifest_version": 2
   ,"description":"一個在瀏覽器上快速紀錄生字到anki的工具。"
   ,"name": "anki-newword"
-  ,"version": "1.0.1"
+  ,"version": "1.0.2"
   ,"permissions": [
     "storage"
     , "contextMenus"
